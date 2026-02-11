@@ -1,0 +1,1 @@
+import{bT as o,a6 as i,bU as p,bV as s}from"./index-DzoQLc5A.js";function b(t,n,e,f){if(o(t.spatialReference,e)){a[0]=t.x,a[1]=t.y;const c=t.z;return a[2]=c??f??0,p(a,t.spatialReference,0,n,e,0)}const r=s(t,e);return!!r&&(n[0]=r==null?void 0:r.x,n[1]=r==null?void 0:r.y,n[2]=(r==null?void 0:r.z)??f??0,!0)}const a=i();export{b as i};
