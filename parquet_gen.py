@@ -25,24 +25,21 @@ def create_db(db_name):
   con.execute("LOAD h3;")
   return con
 places = []
-data_dir = './dogami_datat/Ouputs/'
+data_dir = './Julia_Results_20260203/'
 for item in os.listdir(data_dir):
   full_path = os.path.join(data_dir, item)
   if os.path.isdir(full_path):
-    if(item!='Lake'):
       places.append(item)
 
 print(places)
 
 
 vars = ['population','buildingCount','manufHomesCount','EP_MINRTY','Over90th','SPEI3_Diff','SPEI12_Diff','HousingTenure','NatResrcJobs','flood','libraries','culturalTrust','transGISBridges','criticalFacilities','burn','landslide','liquefaction','flame_height']
-indicators = ['population', 'manufHomesCount', 'buildingCount', 'EP_MINRTY', 'Over90th', 'SPEI3_Diff', 'SPEI12_Diff', 'HousingTenure', 'NatResrcJobs', 'libraries', 'transGISBridges', 'criticalFacilities']
-harms = ['flood', 'burn', 'landslide', 'liquefaction', 'flame_height']
+indicators = ['population', 'manufHomesCount', 'buildingCount', 'PRED3_PE', 'EP_MINRTY', 'HousingTenure', 'HospitalDistMile', 'NatResrcJobs', 'libraries',
+ 'culturalTrust', 'transGISBridges', 'criticalFacilities', 'majorRoads', 'imperviousSurface']
+harms = ['flood', 'burn', 'landslide', 'liquefaction', 'flame_height', 'Over90th', 'SPEI3_Diff', 'SPEI12_Diff', 'coastalErosion', 'tsunami', 'volcano', ]
 
-harm_asset = [{'type': 'harm', 'value': 'flood'}, {'type': 'harm', 'value': 'burn'}, {'type': 'harm', 'value': 'landslide'}, {'type': 'harm', 'value': 'liquefaction'}, {'type': 'harm', 'value': 'flame_height'},
- {'type': 'asset', 'value': 'population'}, {'type': 'asset', 'value': 'manufHomesCount'},
-{'type': 'asset', 'value': 'buildingCount'}, {'type': 'asset', 'value': 'Over90th'}, {'type': 'asset', 'value': 'HousingTenure'}]
-print(harm_asset)
+
 harm_asset = []
 for harm in harms:
   harm_asset.append({'type': 'harm', 'value': harm})
@@ -54,7 +51,7 @@ print(harm_asset)
 for place in places:
   city = place.lower()
   print(place)
-  input_data = f'./dogami_datat/Ouputs/{place}/H3_alternative_profiles.csv'
+  input_data = f'{data_dir}{place}/H3_alternative_profiles.csv'
   conn = create_db("risk_assesment.db")
 
   long_format = []
@@ -63,21 +60,23 @@ for place in places:
   print(len(df))
   for ind, row in df.iterrows():
     for harm in harms:
-      long_format.append(
-      {
-      'GRID_ID': row['hexString'],
-      'var': harm,
-      'region_pct_rank': row[harm],
-      'type': 'harm' 
-      })
+      if harm in row:
+        long_format.append(
+        {
+        'GRID_ID': row['hexString'],
+        'var': harm,
+        'region_pct_rank': row[harm],
+        'type': 'harm' 
+        })
     for ind in indicators:
-      long_format.append(
-      {
-      'GRID_ID': row['hexString'],
-      'var': ind,
-      'region_pct_rank': row[ind],
-      'type': 'asset' 
-      })
+      if ind in row:
+        long_format.append(
+        {
+        'GRID_ID': row['hexString'],
+        'var': ind,
+        'region_pct_rank': row[ind],
+        'type': 'asset' 
+        })
 
   print(len(long_format))
 
@@ -109,7 +108,7 @@ for place in places:
       ) AS ugb_pct_rank
     FROM data_table
   )
-  TO '{city}.parquet'
+  TO './data/{city}.parquet'
   (FORMAT PARQUET,
   COMPRESSION SNAPPY);
   """
@@ -142,7 +141,7 @@ for place in places:
     percent_rank() OVER (PARTITION BY var ORDER BY region_pct_rank) AS ugb_pct_rank
   FROM aggregated
   )
-  TO '{city}_low.parquet'
+  TO './data/{city}_low.parquet'
   (FORMAT PARQUET, 
   COMPRESSION SNAPPY);"""
 

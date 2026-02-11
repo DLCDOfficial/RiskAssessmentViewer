@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Assets & Harms</title>
+  <title>Risk Assessment Viewer</title>
   <script type="module" src="https://js.arcgis.com/calcite-components/3.3.0/calcite.esm.js"></script>
 </head>
 
@@ -12,7 +12,7 @@
   <calcite-shell>
     <!-- HEADER WITH LOGO -->
     <calcite-navigation slot="header">
-      <calcite-navigation-logo slot="logo" heading="Community Assets & Harms Mapping Tool"
+      <calcite-navigation-logo slot="logo" heading="Risk Assessment Viewer"
         thumbnail="https://raw.githubusercontent.com/DLCDOfficial/dlcd-logos/refs/heads/main/DLCD_logo_only.png"></calcite-navigation-logo>
     </calcite-navigation>
 
@@ -28,8 +28,8 @@
       </calcite-action-bar>
 
       <calcite-panel heading="Configure" id="panel-start">
-        <calcite-block heading="Place" description="Select a UGB" icon-start="h3-hexagon" expanded>
-          <calcite-combobox id="place-combobox" placeholder="Select a UGB" selection-mode="single">
+        <calcite-block heading="Place" description="Select a County" icon-start="h3-hexagon" expanded>
+          <calcite-combobox id="place-combobox" placeholder="Select a County" selection-mode="single">
             <!-- Populate with place names -->
           </calcite-combobox>
         </calcite-block>
@@ -38,11 +38,11 @@
         Update Selection
         </calcite-button>
         
-        <calcite-block collapsible heading="Indicators" description="Select Harms & Assets" icon-start="effects" expanded>
+        <calcite-block collapsible heading="Indicators" description="Select Harms & Vulnerabilities" icon-start="effects" expanded>
           <calcite-combobox id="indicator-combobox" placeholder="Indicators" selection-mode="multiple"
             selected-items-label="single" style="z-index: 1000;">
             <!-- Populate with indicators -->
-            <calcite-combobox-item-group label="Assets"></calcite-combobox-item-group>
+            <calcite-combobox-item-group label="Vulnerabilities"></calcite-combobox-item-group>
             <calcite-combobox-item-group label="Harms"></calcite-combobox-item-group>
           </calcite-combobox>
         </calcite-block>
@@ -51,16 +51,16 @@
             <calcite-radio-button-group name="Options" layout="horizontal">
               <calcite-label layout="inline">
                 <calcite-radio-button value="ugb_pct_rank" checked></calcite-radio-button>
-                UGB
+                County
               </calcite-label>
-              <calcite-label layout="inline">
+            <!--  <calcite-label layout="inline">
                 <calcite-radio-button value="region_pct_rank"></calcite-radio-button>
-                Region
+		Region
               </calcite-label>
               <calcite-label layout="inline">
                 <calcite-radio-button value="st_pct_rank"></calcite-radio-button>
                 State
-              </calcite-label>
+	      </calcite-label> --> 
             </calcite-radio-button-group>
           </div>
         </calcite-block>
@@ -89,7 +89,7 @@
       <!-- Y axis label -->
       <div
         style="position:absolute; left:5px; top:50px; writing-mode: vertical-rl; font-weight:bold; text-align:center;">
-        ← Higher Assets 
+        ← Higher Vulnerabilities
       </div>
 
       <!-- Percentage labels y direction -->

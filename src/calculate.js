@@ -118,7 +118,6 @@ const calculateValue = (field = 'ugb_pct_rank', rows = [], indicator_set) => {
     }
   });
 
-
   // build the display string by concatenating in order of bins (4,3,2,1)
   // this ensures that higher percentile variables appear first in the popup
 
