@@ -8,13 +8,11 @@ import { cellToBoundary } from "h3-js";
 import { generateRenderer } from './renderer.js';
 import { calculateValue } from './calculate.js';
 import { loadHexData } from './dataProcessor.js';
-import { attachHoverTooltip } from './htmlHelpers.js';
-//import "@arcgis/map-components/components/arcgis-map";
-//import "@arcgis/map-components/components/arcgis-zoom";
-//import "@arcgis/map-components/components/arcgis-legend";
-//import "@arcgis/map-components/components/arcgis-search";
+import "@arcgis/map-components/components/arcgis-map";
+import "@arcgis/map-components/components/arcgis-zoom";
+import "@arcgis/map-components/components/arcgis-legend";
+import "@arcgis/map-components/components/arcgis-search";
 
-import "https://js.arcgis.com/map-components/4.33/arcgis-map-components.esm.js";
 // ------------------ State Variables ------------------
 
 // Reference to the map view
