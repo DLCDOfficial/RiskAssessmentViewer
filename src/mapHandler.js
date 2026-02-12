@@ -36,10 +36,14 @@ let highres = false;
 //currently highlighted cell in the legend
 let highlightedCell = null;
 
+export var isloading = false;
 //current city file, indicators, and region
 let indicators = null;
 let region = 'ugb_pct_rank';
+let loadingEnabled = true
 
+const loader = document.getElementById("loader")
+const updateBtn = document.getElementById('updateIndicatorsBtn');
 
 // ------------------ Hex Layer Utilities ------------------
 //
@@ -69,7 +73,6 @@ export function setupZoomVisibility(view) {
   });
 }
 
-
 /**
  *  Create a FeatureLayer of hexagons from a list of unique hex IDs.
  *  
@@ -82,6 +85,7 @@ export function setupZoomVisibility(view) {
  * @returns  {FeatureLayer}
  */
 export function createHexLayer(uniqueHexes, map) {
+  loadingEnabled = true;
  
   console.time("CREATE HEX LAYER")
   const graphics = uniqueHexes.map(hex => {
@@ -139,6 +143,7 @@ export function createHexLayer(uniqueHexes, map) {
  */
 
 export async function updateHexValues(hexLayer, hexStore, userOptions) {
+  loadingEnabled = true;
   
 
   hexLayer.visible = false;
@@ -182,6 +187,8 @@ export async function updateHexValues(hexLayer, hexStore, userOptions) {
  * @param {Object} mapView - The map view object.
  */
 export function initMapHandler(mapView) { view = mapView; 
+
+
 
     // Configure popup so it never goes offscreen
   view.popup.dockEnabled = true;
@@ -240,6 +247,20 @@ const handle = reactiveUtils.watch(
     }
   });
 
+  
+view.watch("updating", (isUpdating) => {
+  if (!loadingEnabled) return;
+  isloading = true;
+  updateBtn.loading = true;
+  loader.classList.toggle("hidden", !isUpdating);
+
+  // When loading finishes, turn it off
+  if (!isUpdating) {
+    loadingEnabled = false;
+    isloading = false;
+    updateBtn.loading = false;
+  }
+});
 }
 
 
@@ -318,7 +339,8 @@ export function clearCity() {
  */
 
 export function refreshHexLayer() {
-  if (!hexLayer || !hexStore || !indicators) return;
+   loadingEnabled = true;
+   if (!hexLayer || !hexStore || !indicators) return;
   const userOptions = { indicators_set: new Set(indicators), region };
   // if currently zoomed in, update high res layer first
   // if currently zoomed out, update low res layer first
@@ -332,6 +354,7 @@ export function refreshHexLayer() {
     updateHexValues(hexLayer, hexStore, userOptions)
 
   }
+
   
 }
 
