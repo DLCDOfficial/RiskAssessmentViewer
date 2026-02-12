@@ -7,6 +7,7 @@ import {
   clearCity, 
   setIndicators,
   refreshHexLayer,
+  isloading,
   setRegion
 } from './mapHandler.js';
 
@@ -68,5 +69,9 @@ attachRadioListener(radioGroup, () => {
 
 // Button click handler
 updateBtn.addEventListener('click', () => {
-  refreshHexLayer();
-});
+   if(isloading){
+    return
+   }
+
+    refreshHexLayer();
+})
