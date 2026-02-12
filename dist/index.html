@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Risk Assessment Viewer</title>
   <script type="module" src="https://js.arcgis.com/calcite-components/3.3.0/calcite.esm.js"></script>
-  <script type="module" crossorigin src="./assets/index-CC4t8FUh.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-B7lVI6v4.css">
+  <script type="module" crossorigin src="./assets/index-OOfNv1qG.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-B5GJAbhN.css">
 </head>
 
 <body>
@@ -17,28 +17,27 @@
       <calcite-navigation-logo slot="logo" heading="Risk Assessment Viewer"
         thumbnail="https://raw.githubusercontent.com/DLCDOfficial/dlcd-logos/refs/heads/main/DLCD_logo_only.png"></calcite-navigation-logo>
     </calcite-navigation>
-
+    
+  
+	
     <!-- SIDE PANEL CONTROLS -->
     <calcite-shell-panel slot="panel-start" position="start" id="shell-panel-start">
       <calcite-action-bar slot="action-bar" expanded>
         <calcite-action-group>
           <calcite-action active text="Configure" icon="configure" text-enabled></calcite-action>
         </calcite-action-group>
+
         <calcite-action-group slot="bottom-actions">
           <calcite-action text="About" icon="information" text-enabled></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-
+  
       <calcite-panel heading="Configure" id="panel-start">
         <calcite-block heading="Place" description="Select a County" icon-start="h3-hexagon" expanded>
           <calcite-combobox id="place-combobox" placeholder="Select a County" selection-mode="single">
             <!-- Populate with place names -->
           </calcite-combobox>
         </calcite-block>
-
-	<calcite-button id="updateIndicatorsBtn" appearance="outline" scale="s" style="margin-top: 8px;">
-        Update Selection
-        </calcite-button>
         
         <calcite-block collapsible heading="Indicators" description="Select Harms & Vulnerabilities" icon-start="effects" expanded>
           <calcite-combobox id="indicator-combobox" placeholder="Indicators" selection-mode="multiple"
@@ -48,32 +47,28 @@
             <calcite-combobox-item-group label="Harms"></calcite-combobox-item-group>
           </calcite-combobox>
         </calcite-block>
-        <calcite-block collapsible heading="Comparison" description="Select Comparison Region" icon-start="compare" expanded>
-          <div id="comparison-region">
-            <calcite-radio-button-group name="Options" layout="horizontal">
-              <calcite-label layout="inline">
-                <calcite-radio-button value="ugb_pct_rank" checked></calcite-radio-button>
-                County
-              </calcite-label>
-            <!--  <calcite-label layout="inline">
-                <calcite-radio-button value="region_pct_rank"></calcite-radio-button>
-		Region
-              </calcite-label>
-              <calcite-label layout="inline">
-                <calcite-radio-button value="st_pct_rank"></calcite-radio-button>
-                State
-	      </calcite-label> --> 
-            </calcite-radio-button-group>
-          </div>
-        </calcite-block>
+    
+              <div id="run-button-holder" style="display: flex; align-items: center; gap: 8px;">
+        <calcite-fab
+          id="updateIndicatorsBtn"
+          icon="play"
+          kind="brand"
+          scale="l"
+        ></calcite-fab>
+        <span>Run Analysis</span>
+      </div>
+
       </calcite-panel>
     </calcite-shell-panel>
 
     </calcite-shell-panel>
-    <!-- MAIN CONTENT (MAP) -->
+>
     <calcite-panel>
       <arcgis-map basemap="gray-vector" center="-120.70, 44.12" zoom="6">
         <arcgis-zoom position="top-right"></arcgis-zoom>
+        <!-- Spinner overlay -->
+       <div id="loader" class="hidden"></div>
+  </div>
     </calcite-panel>
   </calcite-shell>
 
