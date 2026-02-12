@@ -64,8 +64,7 @@ arcgis-map {
   height: 100%;
 }
 
-#run-button-holder {
-  margin-top: auto;
-  margin-bottom: auto;
-
+#updateIndicatorsBtn {
+  position: absolute;
+  bottom: 0;
 }

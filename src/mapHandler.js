@@ -252,6 +252,7 @@ view.watch("updating", (isUpdating) => {
   if (!loadingEnabled) return;
   isloading = true;
   updateBtn.loading = true;
+  updateBtn.disabled = true;
   loader.classList.toggle("hidden", !isUpdating);
 
   // When loading finishes, turn it off
@@ -259,6 +260,7 @@ view.watch("updating", (isUpdating) => {
     loadingEnabled = false;
     isloading = false;
     updateBtn.loading = false;
+    updateBtn.disabled = false;
   }
 });
 }
