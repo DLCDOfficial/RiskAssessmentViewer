@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Risk Assessment Viewer</title>
   <script type="module" src="https://js.arcgis.com/calcite-components/3.3.0/calcite.esm.js"></script>
-  <script type="module" crossorigin src="./assets/index-OOfNv1qG.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-B5GJAbhN.css">
+  <script type="module" crossorigin src="./assets/index-Bdk4Sca1.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DE10eTWw.css">
 </head>
 
 <body>
@@ -48,24 +48,21 @@
           </calcite-combobox>
         </calcite-block>
     
-              <div id="run-button-holder" style="display: flex; align-items: center; gap: 8px;">
-        <calcite-fab
-          id="updateIndicatorsBtn"
-          icon="play"
-          kind="brand"
-          scale="l"
-        ></calcite-fab>
-        <span>Run Model</span>
-      </div>
+      <calcite-button
+        id="updateIndicatorsBtn"
+        icon-end="play"
+        scale="l"
+        width="full"
+      >Run Model</calcite-button>
 
       </calcite-panel>
     </calcite-shell-panel>
 
     </calcite-shell-panel>
->
     <calcite-panel>
       <arcgis-map basemap="gray-vector" center="-120.70, 44.12" zoom="6">
         <arcgis-zoom position="top-right"></arcgis-zoom>
+        <arcgis-basemap-toggle position="top-left"></arcgis-basemap-toggle>
         <!-- Spinner overlay -->
        <div id="loader" class="hidden"></div>
   </div>
