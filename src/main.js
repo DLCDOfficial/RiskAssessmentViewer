@@ -19,8 +19,7 @@ import {
 } from "./htmlHelpers.js";
 import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
-import "@arcgis/map-components/components/arcgis-legend";
-import "@arcgis/map-components/components/arcgis-search";
+import "@arcgis/map-components/components/arcgis-basemap-toggle";
 
 // ------------------ UI Elements ------------------
 const indicatorCombo = document.querySelector('#indicator-combobox');
