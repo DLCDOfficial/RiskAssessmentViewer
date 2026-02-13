@@ -28,6 +28,8 @@ const radioGroup = document.querySelector("#comparison-region calcite-radio-butt
 const mapComponent = document.querySelector("arcgis-map");
 const view = mapComponent.view;
 const updateBtn = document.getElementById('updateIndicatorsBtn');
+
+
 // ------------------ Initialize Map ------------------
 initMapHandler(view);
 setupZoomVisibility(view);
@@ -68,9 +70,6 @@ attachRadioListener(radioGroup, () => {
 
 // Button click handler
 updateBtn.addEventListener('click', () => {
-   if(isloading){
-    return
-   }
 
     refreshHexLayer();
 })

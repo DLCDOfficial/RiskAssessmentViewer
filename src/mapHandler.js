@@ -253,6 +253,7 @@ view.watch("updating", (isUpdating) => {
 
   // When loading finishes, turn it off
   if (!isUpdating) {
+    loader.classList.toggle("hidden", true)
     loadingEnabled = false;
     isloading = false;
     updateBtn.loading = false;
@@ -288,7 +289,10 @@ export function setRegion(selectedRegion) {
  */
 
 
-export async function loadCity(fileName, lowres) {
+export async function loadCity(fileName, lowres) { 
+  loader.classList.toggle("hidden", false);
+
+
   
   //if both layers exist, that means a new city was selected.. 
   // clear all layers to start fresh.
@@ -301,6 +305,7 @@ export async function loadCity(fileName, lowres) {
 
   if(lowres){
     
+
     hexLayerLowRes = createHexLayer(uniqueHexes, view.map);
     hexStoreLowRes = newHexStore;
     view.map.add(hexLayerLowRes)
@@ -337,7 +342,11 @@ export function clearCity() {
  */
 
 export function refreshHexLayer() {
+  // Button click handler
+   loader.classList.toggle("hidden", false);
+    
    loadingEnabled = true;
+
    if (!hexLayer || !hexStore || !indicators) return;
   const userOptions = { indicators_set: new Set(indicators), region };
   // if currently zoomed in, update high res layer first
