@@ -19,7 +19,7 @@ import { formatHeader } from './htmlHelpers.js';
 function assignBin(value) {
 
   // the quartile thresholds for the bins
-  const thresholds = {q1:.25,q2:.5,q3:.75};
+  const thresholds = {q1:.2,q2:.4,q3:.5};
 
   if (value <= thresholds.q1) return 1;
   if (value <= thresholds.q2) return 2;
@@ -46,28 +46,21 @@ function getPercentileFromBin(bin) {
  * It appends the newString to the appropriate bin in the displayStringObject.
  * This ensures that when we build the final display string, the variables are displayed from highest to lowest percentile.
  * 
- * @param {int} bin // the bin number (1-4)
- * @param {obj} displayStringObject // the object holding strings for each bin. 
+ * @param {string} var_type // the variable type (harm or asset)
+ * @param {obj} displayStringObject // the object holding strings for each type. 
  * @param {string} newString // the string to append (a single variable and its value)
  * @returns 
  */
-function appendDisplayString(bin, displayStringObject, newString) {
-  if(bin == 1){
+function appendDisplayString(var_type, displayStringObject, newString) {
+  if( var_type == "harm"){
     displayStringObject[1] += newString
     return;
   }
-  if(bin == 2){
+  if(var_type == "asset"){
     displayStringObject[2] += newString
     return;
   }
-  if(bin == 3){
-    displayStringObject[3] += newString
-    return;
-  }
-  if(bin == 4){
-    displayStringObject[4] += newString
-    return;
-  }
+  
   return;}
 /**
  * main calculation function.
@@ -79,7 +72,7 @@ function appendDisplayString(bin, displayStringObject, newString) {
  * 
  * @returns {{avg_harms: number, avg_assets: number, quartile_string: string}} avg_harms, avg_assets, and a quartile_string like "1,3" that informs the rendering of the map.
  */
-const calculateValue = (field = 'ugb_pct_rank', rows = [], indicator_set) => {
+const calculateValue = (field = 'region_pct_rank', rows = [], indicator_set) => {
   //total harms/assets values (numerator for averaging)
   let totalHarms = 0;
   let totalAssets = 0;
@@ -89,12 +82,14 @@ const calculateValue = (field = 'ugb_pct_rank', rows = [], indicator_set) => {
   let countAssets = 0;
 
   //object to hold strings for each bin to facilitate ordered display in popup
-  let displayStringObject = {1: '', 2: '', 3: '', 4: ''};
-
+  let displayStringObject = {1: '', 2: ''};
   //string to display in popup
   let displayString = '';
-
   //iterate through each row of data for this hex
+  
+  rows.sort((a, b) => b[field] - a[field]);
+  
+  
   rows.forEach(row => {
     //skip if this variable is not in the selected indicators set
     if (!indicator_set.has(row.var)) return;
@@ -105,18 +100,23 @@ const calculateValue = (field = 'ugb_pct_rank', rows = [], indicator_set) => {
     const percentageRange = getPercentileFromBin(quartileValue);
       
     const formatted_var = formatHeader(row.var)
-    let currentString = `${formatted_var}: ${percentageRange} <br>`;
-    appendDisplayString(quartileValue, displayStringObject, currentString);
+    let currentString = `${formatted_var}: ${value.toFixed(3)} <br>`;
+    appendDisplayString(row.type, displayStringObject, currentString);
 
 
     if (row.type === 'harm') {
       totalHarms += value;
       countHarms += 1;
+
     } else {
       totalAssets += value;
       countAssets += 1;
     }
   });
+
+
+  const avgHarms = countHarms > 0 ? totalHarms / countHarms : -1;
+  const avgAssets = countAssets > 0 ? totalAssets / countAssets : -1;
 
   // build the display string by concatenating in order of bins (4,3,2,1)
   // this ensures that higher percentile variables appear first in the popup
@@ -130,27 +130,29 @@ const calculateValue = (field = 'ugb_pct_rank', rows = [], indicator_set) => {
   Object.keys(displayStringObject).sort((a, b) => b - a).forEach(bin => {
     
     if (displayStringObject[bin] !== '') {
+
+      if(bin==1){
+  displayString += "<br><strong>Harms:</strong><br>";
+displayString += `<strong> Total Score: ${totalHarms.toFixed(3)} </strong> <br> `;
+displayString += `<strong> Average Score: ${avgHarms.toFixed(3)} </strong> <br> `;}
+     if(bin==2){
+   displayString += "<br><strong>Vulnerabilities:</strong><br>";
+displayString += `<strong> Total Score: ${totalAssets.toFixed(3)} </strong> <br> `;
+displayString += `<strong> Average Score: ${avgAssets.toFixed(3)} </strong> <br> `;}
+
+
       displayString += displayStringObject[bin];
       displayStringObject[bin] = '';
     }
   });
 
-  const avgHarms = countHarms > 0 ? totalHarms / countHarms : 0;
-  const avgAssets = countAssets > 0 ? totalAssets / countAssets : 0;
 
-  const harmsBin = assignBin(avgHarms);
-  const assetsBin = assignBin(avgAssets);
-
-  const harmsRange = getPercentileFromBin(harmsBin);
-  const assetsRange = getPercentileFromBin(assetsBin);
 
   // create the quartile string for rendering
   // based on what percentile bin the average harms and assets fall into
   const quartile_string = `${assignBin(avgAssets)},${assignBin(avgHarms)}`;
 
   return {
-    avg_harms: harmsRange,
-    avg_assets: assetsRange,
     quartile_string,
     displayString
   };
