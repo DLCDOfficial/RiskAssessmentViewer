@@ -7,8 +7,8 @@ import {
   clearCity, 
   setIndicators,
   refreshHexLayer,
-  isloading,
-  setRegion
+  setRegion,
+  setupMapLayerList
 } from './mapHandler.js';
 
 
@@ -20,6 +20,7 @@ import {
 import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
 import "@arcgis/map-components/components/arcgis-basemap-toggle";
+import "@arcgis/map-components/components/arcgis-layer-list";
 
 // ------------------ UI Elements ------------------
 const indicatorCombo = document.querySelector('#indicator-combobox');
@@ -33,6 +34,7 @@ const updateBtn = document.getElementById('updateIndicatorsBtn');
 // ------------------ Initialize Map ------------------
 initMapHandler(view);
 setupZoomVisibility(view);
+setupMapLayerList(view);
 
 const legendEl = document.getElementById('legend-container');
 view.ui.add(legendEl, "bottom-left");
