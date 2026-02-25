@@ -1,0 +1,1 @@
+import{aj as i,am as t,dE as h,da as d,aN as l}from"./index-By6px1pD.js";const f=s=>{let e=class extends s{initialize(){this.addHandles(h((()=>this.layer),"refresh",(r=>{this.doRefresh(r.dataChanged).catch((a=>{d(a)||l.getLogger(this).error(a)}))})),"RefreshableLayerView")}};return e=i([t("esri.views.layers.RefreshableLayerView")],e),e};export{f as i};

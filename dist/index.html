@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Risk Assessment Viewer</title>
   <script type="module" src="https://js.arcgis.com/calcite-components/3.3.0/calcite.esm.js"></script>
-  <script type="module" crossorigin src="./assets/index-oQclEyX3.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-rYCsHKDq.css">
+  <script type="module" crossorigin src="./assets/index-By6px1pD.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DE10eTWw.css">
 </head>
 
 <body>
@@ -39,13 +39,17 @@
           </calcite-combobox>
         </calcite-block>
         
-        <calcite-block collapsible heading="Indicators" description="Select Harms & Vulnerabilities" icon-start="effects" expanded>
+        <calcite-block heading="Indicators" description="Select Harms & Vulnerabilities" icon-start="effects" expanded>
           <calcite-combobox id="indicator-combobox" placeholder="Indicators" selection-mode="multiple"
             selected-items-label="single" style="z-index: 1000;">
             <!-- Populate with indicators -->
             <calcite-combobox-item-group label="Vulnerabilities"></calcite-combobox-item-group>
             <calcite-combobox-item-group label="Harms"></calcite-combobox-item-group>
           </calcite-combobox>
+        </calcite-block>
+
+        <calcite-block collapsible heading="Layers" description="Toggle Map Layers" icon-start="layers">
+          <arcgis-layer-list visibility-appearance="checkbox"></arcgis-layer-list>
         </calcite-block>
     
       <calcite-button
@@ -60,7 +64,7 @@
 
     </calcite-shell-panel>
     <calcite-panel>
-      <arcgis-map basemap="gray-vector" center="-120.70, 44.12" zoom="6">
+      <arcgis-map item-id="df6549aeea2d4de5ad8539d4dfa1066d" basemap="gray-vector" center="-120.70, 44.12" zoom="6">
         <arcgis-zoom position="top-right"></arcgis-zoom>
         <arcgis-basemap-toggle position="top-left"></arcgis-basemap-toggle>
         <!-- Spinner overlay -->
