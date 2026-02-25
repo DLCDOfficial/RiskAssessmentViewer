@@ -74,6 +74,18 @@ export function setupZoomVisibility(view) {
 }
 
 /**
+ * setup layer list widget by attaching mapView to
+ * arcgis-layer-list widget properties
+ * @param {mapView} view 
+ */
+export function setupMapLayerList(view) {
+  const arcgisLayerListWidget = document.querySelector('arcgis-layer-list');
+  arcgisLayerListWidget.componentOnReady().then(() => {
+    arcgisLayerListWidget.view = view;
+  });
+}
+
+/**
  *  Create a FeatureLayer of hexagons from a list of unique hex IDs.
  *  
  *  * For each H3 hex ID this function:
@@ -105,6 +117,7 @@ export function createHexLayer(uniqueHexes, map) {
 
   return new FeatureLayer({
     objectIdField: 'grid_id',
+    listMode: 'hide',
     opacity: 0.85,
     popupEnabled: true,
     popupTemplate: {
@@ -308,6 +321,7 @@ export async function loadCity(fileName, lowres) {
     hexLayerLowRes = createHexLayer(uniqueHexes, view.map);
     hexStoreLowRes = newHexStore;
     view.map.add(hexLayerLowRes)
+    view.map.reorder(hexLayerLowRes, 0);
     await view.whenLayerView(hexLayerLowRes).then(() => { const extent = hexLayerLowRes.fullExtent; if (!extent) return; view.goTo(extent.expand(1.15)); });
       }
 
@@ -316,6 +330,7 @@ export async function loadCity(fileName, lowres) {
       hexLayer = createHexLayer(uniqueHexes, view.map);
       hexStore = newHexStore;
       view.map.add(hexLayer);
+      view.map.reorder(hexLayer, 0);
       hexLayer.visible = false;
     },0)
    }
