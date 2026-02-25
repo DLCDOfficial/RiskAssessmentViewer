@@ -1,13 +1,17 @@
 // mapHandler.js
 import Graphic from "@arcgis/core/Graphic.js";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
 
 import { cellToBoundary } from "h3-js";
 import { generateRenderer } from './renderer.js';
 import { calculateValue } from './calculate.js';
 import { loadHexData } from './dataProcessor.js';
-
+import "@arcgis/map-components/components/arcgis-map";
+import "@arcgis/map-components/components/arcgis-zoom";
+import "@arcgis/map-components/components/arcgis-legend";
+import "@arcgis/map-components/components/arcgis-search";
 
 // ------------------ State Variables ------------------
 
@@ -35,7 +39,7 @@ let highlightedCell = null;
 export var isloading = false;
 //current city file, indicators, and region
 let indicators = null;
-let region = 'ugb_pct_rank';
+let region = 'region_pct_rank';
 let loadingEnabled = true
 
 const loader = document.getElementById("loader")
@@ -106,7 +110,7 @@ export function createHexLayer(uniqueHexes, map) {
     return new Graphic({
       geometry: polygon,
       symbol: fillSymbol,
-      attributes: { grid_id: hex, hex_id: hex, displayString: hex, final_value_assets: 0.0, final_value_harms: 0.0 }
+      attributes: { grid_id: hex, hex_id: hex, displayString: hex}
     });
   });
   console.timeEnd("CREATE HEX LAYER")
@@ -127,8 +131,6 @@ export function createHexLayer(uniqueHexes, map) {
     fields: [
       { name: "grid_id", type: "oid" },
       { name: "hex_id", type: "string" },
-      { name: "final_value_harms", type: "double"},
-      { name: "final_value_assets", type: "double"},
       { name: "compositeKey", type: "string" },
       { name: "displayString", type: "string" }
     ],
@@ -166,8 +168,7 @@ export async function updateHexValues(hexLayer, hexStore, userOptions) {
     const values = calculateValue(region, hexStore[hexId], indicators_set);
 
     // Update in-memory graphic attributes
-    graphic.attributes.final_value_harms = values.avg_harms;
-    graphic.attributes.final_value_assets = values.avg_assets;
+  
     graphic.attributes.compositeKey = values.quartile_string;
     graphic.attributes.displayString = values.displayString;
 
@@ -261,8 +262,7 @@ view.watch("updating", (isUpdating) => {
   if (!loadingEnabled) return;
   isloading = true;
   updateBtn.loading = true;
-  updateBtn.disabled = true;
-  loader.classList.toggle("hidden", !isUpdating);
+ // loader.classList.toggle("hidden", !isUpdating);
 
   // When loading finishes, turn it off
   if (!isUpdating) {
@@ -270,7 +270,6 @@ view.watch("updating", (isUpdating) => {
     loadingEnabled = false;
     isloading = false;
     updateBtn.loading = false;
-    updateBtn.disabled = false;
   }
 });
 }
