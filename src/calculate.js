@@ -7,8 +7,6 @@
 // The bin numbers are then combined into a string like "1,3" which maps to a defined color
 import { formatHeader } from './htmlHelpers.js';
 
-
-
 /**
  * assign a bin (1-4) for a value based on provided thresholds
  * This function is called to assign a bin number for assets and harms
@@ -19,7 +17,7 @@ import { formatHeader } from './htmlHelpers.js';
 function assignBin(value) {
 
   // the quartile thresholds for the bins
-  const thresholds = {q1:.2,q2:.4,q3:.5};
+  const thresholds = { q1: .2, q2: .4, q3: .5 };
 
   if (value <= thresholds.q1) return 1;
   if (value <= thresholds.q2) return 2;
@@ -35,11 +33,11 @@ function assignBin(value) {
 function getPercentileFromBin(bin) {
   //mapping of bin numbers to percentile strings
   const percentage_strings = { 1: "0-25%", 2: "25-50%", 3: "50-75%", 4: "75-100%" };
-  return percentage_strings[bin] || null;}
+  return percentage_strings[bin] || null;
+}
 
 
 //standard thresholds. We could change these if we wanted. 
-
 
 /**
  * This function is a helper to build the display string for the popup.
@@ -52,16 +50,17 @@ function getPercentileFromBin(bin) {
  * @returns 
  */
 function appendDisplayString(var_type, displayStringObject, newString) {
-  if( var_type == "harm"){
+  if (var_type == "harm") {
     displayStringObject[1] += newString
     return;
   }
-  if(var_type == "asset"){
+  if (var_type == "asset") {
     displayStringObject[2] += newString
     return;
   }
-  
-  return;}
+
+  return;
+}
 /**
  * main calculation function.
  * 
@@ -82,14 +81,13 @@ const calculateValue = (field = 'region_pct_rank', rows = [], indicator_set) => 
   let countAssets = 0;
 
   //object to hold strings for each bin to facilitate ordered display in popup
-  let displayStringObject = {1: '', 2: ''};
+  let displayStringObject = { 1: '', 2: '' };
   //string to display in popup
   let displayString = '';
   //iterate through each row of data for this hex
-  
+
   rows.sort((a, b) => b[field] - a[field]);
-  
-  
+
   rows.forEach(row => {
     //skip if this variable is not in the selected indicators set
     if (!indicator_set.has(row.var)) return;
@@ -98,11 +96,10 @@ const calculateValue = (field = 'region_pct_rank', rows = [], indicator_set) => 
     const quartileValue = assignBin(value);
 
     const percentageRange = getPercentileFromBin(quartileValue);
-      
+
     const formatted_var = formatHeader(row.var)
     let currentString = `${formatted_var}: ${value.toFixed(3)} <br>`;
     appendDisplayString(row.type, displayStringObject, currentString);
-
 
     if (row.type === 'harm') {
       totalHarms += value;
@@ -114,7 +111,6 @@ const calculateValue = (field = 'region_pct_rank', rows = [], indicator_set) => 
     }
   });
 
-
   const avgHarms = countHarms > 0 ? totalHarms / countHarms : -1;
   const avgAssets = countAssets > 0 ? totalAssets / countAssets : -1;
 
@@ -124,28 +120,29 @@ const calculateValue = (field = 'region_pct_rank', rows = [], indicator_set) => 
   // e.g. if a hex has one variable in the 75-100% bin and two in the 0-25% bin,
   // we want the 75-100% variable to appear first in the popup
 
- //sort ensures order is always 4,3,2,1
- //then we are checking if there is any string for that bin
- //if so, we append it to the displayString
+  //sort ensures order is always 4,3,2,1
+  //then we are checking if there is any string for that bin
+  //if so, we append it to the displayString
   Object.keys(displayStringObject).sort((a, b) => b - a).forEach(bin => {
-    
+
     if (displayStringObject[bin] !== '') {
 
-      if(bin==1){
-  displayString += "<br><strong>Harms:</strong><br>";
-displayString += `<strong> Total Score: ${totalHarms.toFixed(3)} </strong> <br> `;
-displayString += `<strong> Average Score: ${avgHarms.toFixed(3)} </strong> <br> `;}
-     if(bin==2){
-   displayString += "<br><strong>Vulnerabilities:</strong><br>";
-displayString += `<strong> Total Score: ${totalAssets.toFixed(3)} </strong> <br> `;
-displayString += `<strong> Average Score: ${avgAssets.toFixed(3)} </strong> <br> `;}
+      if (bin == 1) {
+        displayString += "<br><strong>Harms:</strong><br>";
+        displayString += `<strong> Total Score: ${totalHarms.toFixed(3)} </strong> <br> `;
+        displayString += `<strong> Average Score: ${avgHarms.toFixed(3)} </strong> <br> `;
+      }
+      if (bin == 2) {
+        displayString += "<br><strong>Vulnerabilities:</strong><br>";
+        displayString += `<strong> Total Score: ${totalAssets.toFixed(3)} </strong> <br> `;
+        displayString += `<strong> Average Score: ${avgAssets.toFixed(3)} </strong> <br> `;
+      }
 
 
       displayString += displayStringObject[bin];
       displayStringObject[bin] = '';
     }
   });
-
 
 
   // create the quartile string for rendering

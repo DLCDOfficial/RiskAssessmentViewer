@@ -3,7 +3,6 @@
 
 import { loadParquet } from './dataProcessor.js';
 
-
 /**
  * Append <calcite-combobox-item> elements to a parent element.
  * @param {HTMLElement} comboboxEl - The combobox container.
@@ -35,7 +34,7 @@ export function formatHeader(str) {
     "community_center_dist": "Community Center Distance",
     "library_dist": "Library Distance",
     "burn_prob": "Burn Probability",
-    "flame_length": "Flame Length"	  
+    "flame_length": "Flame Length"
   };
 
   // Check if str matches an exception
@@ -48,7 +47,6 @@ export function formatHeader(str) {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
 }
-
 
 /**
  * Attach a change listener to a calcite-combobox.

@@ -1,10 +1,10 @@
 import "./styles.css";
 
-import { 
+import {
   initMapHandler,
   setupZoomVisibility,
-  loadCity, 
-  clearCity, 
+  loadCity,
+  clearCity,
   setIndicators,
   refreshHexLayer,
   setRegion,
@@ -12,10 +12,10 @@ import {
 } from './mapHandler.js';
 
 
-import { 
-  createPlaceElements, 
-  createIndicatorElements, 
-  attachRadioListener 
+import {
+  createPlaceElements,
+  createIndicatorElements,
+  attachRadioListener
 } from "./htmlHelpers.js";
 import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
@@ -48,7 +48,8 @@ createIndicatorElements(indicatorCombo, (selectedIndicators) => {
 indicatorCombo.addEventListener("calciteComboboxChange", () => {
   if (indicatorCombo.selectedItems.length === 0) {
     setIndicators([]); // No indicators}) selected
-      }});
+  }
+});
 
 // Force Calcite to only show a single selected item in the combobox display, but allow multiple selection.
 indicatorCombo.selectionDisplay = "single";
@@ -72,6 +73,5 @@ attachRadioListener(radioGroup, () => {
 
 // Button click handler
 updateBtn.addEventListener('click', () => {
-
-    refreshHexLayer();
+  refreshHexLayer();
 })

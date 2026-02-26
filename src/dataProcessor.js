@@ -36,17 +36,16 @@ export async function loadHexData(parquetFile) {
   console.timeEnd('LoadParquet TIME:')
 
   console.time('Create Hex Store TIME:')
-  const flags_data = {electric_transmission_lines: [],highway: [],tsunami_zone: []}
+  const flags_data = { electric_transmission_lines: [], highway: [], tsunami_zone: [] }
   const hexStore = {};
   data.forEach(d => {
     const id = d['GRID_ID'];
 
-    
     if (!hexStore[id]) {
       hexStore[id] = [];
     }
     hexStore[id].push(d);
-    
+
   });
 
   const uniqueHexes = Object.keys(hexStore);

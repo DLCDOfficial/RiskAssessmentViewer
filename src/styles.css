@@ -14,18 +14,14 @@ arcgis-map {
   height: 100%;
 }
 
-.options-list > li {
+.options-list>li {
   cursor: pointer;
-}
-
-#place-combobox {
-  z-index: 9999;
 }
 
 #hover-tooltip {
   position: absolute;
   pointer-events: none;
-  background: rgba(0,0,0,0.75);
+  background: rgba(0, 0, 0, 0.75);
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
@@ -54,7 +50,9 @@ arcgis-map {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 
