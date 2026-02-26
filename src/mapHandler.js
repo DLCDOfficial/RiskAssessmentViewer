@@ -7,7 +7,6 @@ import { cellToBoundary } from "h3-js";
 import { generateRenderer } from './renderer.js';
 import { calculateValue } from './calculate.js';
 import { loadHexData } from './dataProcessor.js';
-import VideoView from "@arcgis/core/views/VideoView.js";
 
 // ------------------ State Variables ------------------
 
