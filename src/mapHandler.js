@@ -1,28 +1,23 @@
 // mapHandler.js
 import Graphic from "@arcgis/core/Graphic.js";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
-import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
 
 import { cellToBoundary } from "h3-js";
 import { generateRenderer } from './renderer.js';
 import { calculateValue } from './calculate.js';
 import { loadHexData } from './dataProcessor.js';
-import "@arcgis/map-components/components/arcgis-map";
-import "@arcgis/map-components/components/arcgis-zoom";
-import "@arcgis/map-components/components/arcgis-legend";
-import "@arcgis/map-components/components/arcgis-search";
+import VideoView from "@arcgis/core/views/VideoView.js";
 
 // ------------------ State Variables ------------------
 
 // Reference to the map view
 let view = null;
 
-
 // Reference to the hex layer that is currently displayed
 let hexLayer = null;
 //Reference to the low resolution version of the above layer.
-let hexLayerLowRes = null; 
+let hexLayerLowRes = null;
 
 // hex data loaded from Parquet file. where hexStore[hexId] = array of data rows for that hex
 let hexStore = null;
@@ -31,7 +26,6 @@ let hexStoreLowRes = null;
 
 // Is the high res layer currently shown? ( this is how we know which layer, high or low res to update first.)
 let highres = false;
-
 
 //currently highlighted cell in the legend
 let highlightedCell = null;
@@ -57,18 +51,18 @@ const updateBtn = document.getElementById('updateIndicatorsBtn');
 export function setupZoomVisibility(view) {
   view.when(() => {
     view.watch("zoom", (z) => {
-      if(hexLayer){
-        if(z>=10){
-        hexLayer.visible = true;
-        highres = true;
-        hexLayerLowRes.visible = false;
+      if (hexLayer) {
+        if (z >= 10) {
+          hexLayer.visible = true;
+          highres = true;
+          hexLayerLowRes.visible = false;
         }
-        else{
+        else {
           hexLayer.visible = false;
           highres = false;
           hexLayerLowRes.visible = true;
         }
-    }
+      }
     });
   });
 }
@@ -98,7 +92,7 @@ export function setupMapLayerList(view) {
  */
 export function createHexLayer(uniqueHexes, map) {
   loadingEnabled = true;
- 
+
   console.time("CREATE HEX LAYER")
   const graphics = uniqueHexes.map(hex => {
     const polygon = { type: "polygon", rings: cellToBoundary(hex, true) };
@@ -110,7 +104,7 @@ export function createHexLayer(uniqueHexes, map) {
     return new Graphic({
       geometry: polygon,
       symbol: fillSymbol,
-      attributes: { grid_id: hex, hex_id: hex, displayString: hex}
+      attributes: { grid_id: hex, hex_id: hex, displayString: hex }
     });
   });
   console.timeEnd("CREATE HEX LAYER")
@@ -121,13 +115,12 @@ export function createHexLayer(uniqueHexes, map) {
     opacity: 0.85,
     popupEnabled: true,
     popupTemplate: {
-      
       outFields: ['*'],
       content: function (feature) {
-    // feature.graphic.attributes is always current when the popup opens
-    return feature.graphic.attributes.displayString;
-  }
-},
+        // feature.graphic.attributes is always current when the popup opens
+        return feature.graphic.attributes.displayString;
+      }
+    },
     fields: [
       { name: "grid_id", type: "oid" },
       { name: "hex_id", type: "string" },
@@ -155,39 +148,35 @@ export function createHexLayer(uniqueHexes, map) {
 
 export async function updateHexValues(hexLayer, hexStore, userOptions) {
   loadingEnabled = true;
-  
 
   hexLayer.visible = false;
   const { indicators_set, region } = userOptions;
   const extent = view.extent;
   // Prepare all edits in one pass while updating graphics
   const edits = hexLayer.source.items.map(graphic => {
-    
-    const hexId = graphic.attributes.hex_id;
 
+    const hexId = graphic.attributes.hex_id;
     const values = calculateValue(region, hexStore[hexId], indicators_set);
 
     // Update in-memory graphic attributes
-  
     graphic.attributes.compositeKey = values.quartile_string;
     graphic.attributes.displayString = values.displayString;
 
-      
     return { attributes: graphic.attributes };
   });
 
   // Apply all edits in one call
-//  await hexLayer.applyEdits({ updateFeatures: edits });
+  //  await hexLayer.applyEdits({ updateFeatures: edits });
 
-// apply edits in batch
-// total items: 131226
+  // apply edits in batch
+  // total items: 131226
   const CHUNK_SIZE = 50000
   for (let i = 0; i < hexLayer.source.items.length; i += CHUNK_SIZE) {
-      const batch = hexLayer.source.items.slice(i, i + CHUNK_SIZE).map(graphic => ({
+    const batch = hexLayer.source.items.slice(i, i + CHUNK_SIZE).map(graphic => ({
       attributes: graphic.attributes
     }));
     await hexLayer.applyEdits({ updateFeatures: batch });
-}
+  }
 
 }
 
@@ -196,82 +185,76 @@ export async function updateHexValues(hexLayer, hexStore, userOptions) {
 /** Initialize map handler with the map view.
  * @param {Object} mapView - The map view object.
  */
-export function initMapHandler(mapView) { view = mapView; 
+export function initMapHandler(mapView) {
+  view = mapView;
 
-
-
-    // Configure popup so it never goes offscreen
+  // Configure popup so it never goes offscreen
   view.popup.dockEnabled = true;
   view.popup.featureNavigationEnabled = false;
-  view.popup.autoCloseEnabled =true;
-
+  view.popup.autoCloseEnabled = false;
 
   view.popup.dockOptions = {
     buttonEnabled: false,
     breakpoint: false,
   };
-  view.popup.maxHeight = 200; 
+  view.popup.maxHeight = 200;
 
   // Add click handler for hexes
   view.on("click", async (event) => {
     const response = await view.hitTest(event);
 
-  if (highlightedCell) {
-    highlightedCell.style.border = '';
-  }
+    if (highlightedCell) {
+      highlightedCell.style.border = '';
+    }
     let currentLayer = null;
-    if(highres){
+    if (highres) {
       currentLayer = hexLayer;
     }
-    else{
+    else {
       currentLayer = hexLayerLowRes;
     }
-    
+
     // Filter for  hex layer only
     const results = response.results.filter(r => r.graphic.layer === currentLayer);
-    
 
     //if several hexes were included in the click.. just pick one.
     if (results.length > 0) {
       const graphic = results[0].graphic;
-      const hexId = graphic.attributes.hex_id;
       const rendererString = graphic.attributes.compositeKey;
-      
-
-     const legend_div = document.getElementById(rendererString)
-
-     legend_div.style.border = "3px solid yellow";  
-     highlightedCell =legend_div    
-
+      if (rendererString) {
+        const legend_div = document.getElementById(rendererString)
+        legend_div.style.border = "3px solid yellow";
+        highlightedCell = legend_div
+      }
     }
   });
 
 
-// Watch for popup close to remove highlight
-const handle = reactiveUtils.watch(
-  () => view.popup.visible,
-  (visible) => {
-    if (!visible && highlightedCell) {
-      highlightedCell.style.border = '';
-      highlightedCell = null;
+  // Watch for popup close to remove highlight
+  reactiveUtils.watch(
+    () => view.popup.visible,
+    (visible) => {
+      if (!visible && highlightedCell) {
+        highlightedCell.style.border = '';
+        highlightedCell = null;
+      }
+    });
+
+
+  view.watch("updating", (isUpdating) => {
+    if (!loadingEnabled) return;
+    isloading = true;
+    updateBtn.loading = true;
+    // loader.classList.toggle("hidden", !isUpdating);
+
+    // When loading finishes, turn it off
+    if (!isUpdating) {
+      loader.classList.toggle("hidden", true)
+      loadingEnabled = false;
+      isloading = false;
+      updateBtn.loading = false;
     }
   });
-
-  
-view.watch("updating", (isUpdating) => {
-  if (!loadingEnabled) return;
-  isloading = true;
-  updateBtn.loading = true;
- // loader.classList.toggle("hidden", !isUpdating);
-
-  // When loading finishes, turn it off
-  if (!isUpdating) {
-    loader.classList.toggle("hidden", true)
-    loadingEnabled = false;
-    isloading = false;
-    updateBtn.loading = false;
-  }
-});
 }
 
 
@@ -283,7 +266,6 @@ view.watch("updating", (isUpdating) => {
  */
 export function setIndicators(selectedIndicators) {
   indicators = selectedIndicators;
-  //refreshHexLayer();
 }
 
 /**
@@ -292,7 +274,6 @@ export function setIndicators(selectedIndicators) {
  */
 export function setRegion(selectedRegion) {
   region = selectedRegion;
-  //refreshHexLayer();
 }
 
 /**
@@ -300,42 +281,36 @@ export function setRegion(selectedRegion) {
  * @param {string} fileName - The name of the Parquet file to load.
  */
 
-
-export async function loadCity(fileName, lowres) { 
+export async function loadCity(fileName, lowres) {
+  closePopup();
   loader.classList.toggle("hidden", false);
 
-
-  
   //if both layers exist, that means a new city was selected.. 
   // clear all layers to start fresh.
-  if(hexLayerLowRes){
-    if(hexLayer){
-   clearAllLayers();}  
+  if (hexLayerLowRes && hexLayer) {
+    clearAllLayers();
   }
 
   const { hexStore: newHexStore, uniqueHexes, flags_data } = await loadHexData(fileName);
 
-  if(lowres){
-    
-
+  if (lowres) {
     hexLayerLowRes = createHexLayer(uniqueHexes, view.map);
     hexStoreLowRes = newHexStore;
     view.map.add(hexLayerLowRes)
     view.map.reorder(hexLayerLowRes, 0);
     await view.whenLayerView(hexLayerLowRes).then(() => { const extent = hexLayerLowRes.fullExtent; if (!extent) return; view.goTo(extent.expand(1.15)); });
-      }
+  }
 
-  else{
+  else {
     setTimeout(() => {
       hexLayer = createHexLayer(uniqueHexes, view.map);
       hexStore = newHexStore;
       view.map.add(hexLayer);
       view.map.reorder(hexLayer, 0);
       hexLayer.visible = false;
-    },0)
-   }
-  
- 
+    }, 0)
+  }
+
 }
 
 
@@ -345,7 +320,7 @@ export async function loadCity(fileName, lowres) {
 export function clearCity() {
   clearAllLayers();
 
-   view.goTo({
+  view.goTo({
     center: [-120.5, 44.0], // [longitude, latitude]
     zoom: 6            // replace with your original zoom level
   });
@@ -356,29 +331,29 @@ export function clearCity() {
  */
 
 export function refreshHexLayer() {
+  closePopup();
   // Button click handler
-   loader.classList.toggle("hidden", false);
-    
-   loadingEnabled = true;
+  loader.classList.toggle("hidden", false);
 
-   if (!hexLayer || !hexStore || !indicators) return;
+  loadingEnabled = true;
+
+  if (!hexLayer || !hexStore || !indicators) return;
   const userOptions = { indicators_set: new Set(indicators), region };
   // if currently zoomed in, update high res layer first
   // if currently zoomed out, update low res layer first
-  if(highres){
-  updateHexValues(hexLayer, hexStore, userOptions);
-  hexLayer.visible = true;
-  updateHexValues(hexLayerLowRes, hexStoreLowRes, userOptions);}
-  else{
+  if (highres) {
+    updateHexValues(hexLayer, hexStore, userOptions);
+    hexLayer.visible = true;
+    updateHexValues(hexLayerLowRes, hexStoreLowRes, userOptions);
+  }
+  else {
     updateHexValues(hexLayerLowRes, hexStoreLowRes, userOptions)
     hexLayerLowRes.visible = true;
     updateHexValues(hexLayer, hexStore, userOptions)
 
   }
 
-  
 }
-
 
 /** 
  *  Clear all layers that have been added to a map.
@@ -386,10 +361,17 @@ export function refreshHexLayer() {
 function clearAllLayers() {
   if (hexLayer) view.map.layers.remove(hexLayer);
   if (hexLayerLowRes) view.map.layers.remove(hexLayerLowRes);
-  
+
   hexLayer = null;
   hexStore = null;
   hexLayerLowRes = null;
   hexStoreLowRes = null;
+}
+
+function closePopup() {
+  const { popup } = view;
+  if ('close' in popup) {
+    popup.close();
+  }
 }
 
