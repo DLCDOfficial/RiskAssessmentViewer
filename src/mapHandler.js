@@ -67,6 +67,24 @@ export function setupZoomVisibility(view) {
 }
 
 /**
+ * adds a custom print widget button to the map
+ * @param {HTMLElement} el
+ * @param {mapView} view
+ */
+export function setupPrintBtn(el, view) {
+  el.addEventListener('click', async () => {
+    const mapScreenshot = await view.takeScreenshot({ height: 2048, width: 4096 });
+    const linkEl = document.createElement("a");
+    linkEl.href = mapScreenshot.dataUrl;
+    linkEl.download = `risk_assessment_viewer_${Date.now()}`;
+    document.body.appendChild(linkEl);
+    linkEl.click();
+    document.body.removeChild(linkEl);
+  });
+  view.ui.add(el, "top-right");
+}
+
+/**
  * setup layer list widget by attaching mapView to
  * arcgis-layer-list widget properties
  * @param {mapView} view 

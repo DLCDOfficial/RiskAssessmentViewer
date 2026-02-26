@@ -8,14 +8,16 @@ import {
   setIndicators,
   refreshHexLayer,
   setRegion,
-  setupMapLayerList
+  setupMapLayerList,
+  setupPrintBtn
 } from './mapHandler.js';
 
 
 import {
   createPlaceElements,
   createIndicatorElements,
-  attachRadioListener
+  attachRadioListener,
+  createCustomWidgetElement
 } from "./htmlHelpers.js";
 import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
@@ -35,6 +37,7 @@ const updateBtn = document.getElementById('updateIndicatorsBtn');
 initMapHandler(view);
 setupZoomVisibility(view);
 setupMapLayerList(view);
+setupPrintBtn(createCustomWidgetElement(), view);
 
 const legendEl = document.getElementById('legend-container');
 view.ui.add(legendEl, "bottom-left");
