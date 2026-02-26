@@ -234,14 +234,13 @@ export function initMapHandler(mapView) { view = mapView;
     //if several hexes were included in the click.. just pick one.
     if (results.length > 0) {
       const graphic = results[0].graphic;
-      const hexId = graphic.attributes.hex_id;
       const rendererString = graphic.attributes.compositeKey;
-      
 
-     const legend_div = document.getElementById(rendererString)
-
-     legend_div.style.border = "3px solid yellow";  
-     highlightedCell =legend_div    
+      if (rendererString) {
+        const legend_div = document.getElementById(rendererString)
+        legend_div.style.border = "3px solid yellow";  
+        highlightedCell =legend_div    
+      }
 
     }
   });
