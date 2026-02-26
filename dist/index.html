@@ -1,4 +1,4 @@
-<!doctype html >
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Risk Assessment Viewer</title>
   <script type="module" src="https://js.arcgis.com/calcite-components/3.3.0/calcite.esm.js"></script>
-  <script type="module" crossorigin src="./assets/index-By6px1pD.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DE10eTWw.css">
+  <script type="module" crossorigin src="./assets/index-B0QoiLGO.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BvJJw9yZ.css">
 </head>
 
 <body>
@@ -17,9 +17,9 @@
       <calcite-navigation-logo slot="logo" heading="Risk Assessment Viewer"
         thumbnail="https://raw.githubusercontent.com/DLCDOfficial/dlcd-logos/refs/heads/main/DLCD_logo_only.png"></calcite-navigation-logo>
     </calcite-navigation>
-    
-  
-	
+
+
+
     <!-- SIDE PANEL CONTROLS -->
     <calcite-shell-panel slot="panel-start" position="start" id="shell-panel-start">
       <calcite-action-bar slot="action-bar" expanded>
@@ -31,17 +31,17 @@
           <calcite-action text="About" icon="information" text-enabled></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-  
+
       <calcite-panel heading="Configure" id="panel-start">
         <calcite-block heading="Place" description="Select a County" icon-start="h3-hexagon" expanded>
           <calcite-combobox id="place-combobox" placeholder="Select a County" selection-mode="single">
             <!-- Populate with place names -->
           </calcite-combobox>
         </calcite-block>
-        
+
         <calcite-block heading="Indicators" description="Select Harms & Vulnerabilities" icon-start="effects" expanded>
           <calcite-combobox id="indicator-combobox" placeholder="Indicators" selection-mode="multiple"
-            selected-items-label="single" style="z-index: 1000;">
+            selected-items-label="single">
             <!-- Populate with indicators -->
             <calcite-combobox-item-group label="Vulnerabilities"></calcite-combobox-item-group>
             <calcite-combobox-item-group label="Harms"></calcite-combobox-item-group>
@@ -51,13 +51,8 @@
         <calcite-block collapsible heading="Layers" description="Toggle Map Layers" icon-start="layers">
           <arcgis-layer-list visibility-appearance="checkbox"></arcgis-layer-list>
         </calcite-block>
-    
-      <calcite-button
-        id="updateIndicatorsBtn"
-        icon-end="play"
-        scale="l"
-        width="full"
-      >Run Model</calcite-button>
+
+        <calcite-button id="updateIndicatorsBtn" icon-end="play" scale="l" width="full">Run Model</calcite-button>
 
       </calcite-panel>
     </calcite-shell-panel>
@@ -68,8 +63,8 @@
         <arcgis-zoom position="top-right"></arcgis-zoom>
         <arcgis-basemap-toggle position="top-left"></arcgis-basemap-toggle>
         <!-- Spinner overlay -->
-       <div id="loader" class="hidden"></div>
-  </div>
+        <div id="loader" class="hidden"></div>
+        </div>
     </calcite-panel>
   </calcite-shell>
 
@@ -102,7 +97,7 @@
         0.35</div>
       <div
         style="grid-row:4; grid-column:1; writing-mode: vertical-rl; text-align:center; font-size:10px; align-self:center;">
-      &lt; 0.20</div>
+        &lt; 0.20</div>
 
       <!-- Color matrix cells -->
       <!-- Rows are reversed from how they are represented in the renderer strings.. 4 = 1-->
@@ -130,9 +125,9 @@
       <div id="1,3" style="grid-row:4; grid-column:4; background:#d9926a;"></div>
       <div id="1,4" style="grid-row:4; grid-column:5; background:#dd6a29;"></div>
 
-      
+
       <!-- Percentage labels x direction -->
-      <div style="grid-row:5; grid-column:2; text-align:center; font-size:10px;">  &lt; 0.20</div>
+      <div style="grid-row:5; grid-column:2; text-align:center; font-size:10px;"> &lt; 0.20</div>
       <div style="grid-row:5; grid-column:3; text-align:center; font-size:10px;"> .35</div>
       <div style="grid-row:5; grid-column:4; text-align:center; font-size:10px;"> .50</div>
       <div style="grid-row:5; grid-column:5; text-align:center; font-size:10px;"> 1.0</div>
