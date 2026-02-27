@@ -195,3 +195,17 @@ export function attachHoverTooltip(view, hexLayer) {
 
   view.on("pointer-leave", () => hideTooltip(tooltip));
 }
+
+/**
+ * Creates a custom HTML element
+ * @param {string} title The title of the widget 
+ * @param {string} icon The custom icon using esri icon class names (https://developers.arcgis.com/javascript/latest/esri-icon-font/)
+ * 
+ * @returns {HTMLElement} HTML Element
+ */
+export function createCustomWidgetElement (title = "Print", icon = "esri-icon-printer") {
+  const customEl = document.createElement('div');
+  customEl.className = `${icon} esri-widget--button esri-widget esri-interactive`;
+  customEl.title = title;
+  return customEl;
+}
