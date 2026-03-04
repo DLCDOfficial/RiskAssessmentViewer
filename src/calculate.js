@@ -17,7 +17,7 @@ import { formatHeader } from './htmlHelpers.js';
 function assignBin(value) {
 
   // the quartile thresholds for the bins
-  const thresholds = { q1: .2, q2: .4, q3: .5 };
+  const thresholds = { q1: 0, q2: .2, q3:.3 };
 
   if (value <= thresholds.q1) return 1;
   if (value <= thresholds.q2) return 2;
