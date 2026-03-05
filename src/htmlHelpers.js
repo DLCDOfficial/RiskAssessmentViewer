@@ -3,11 +3,46 @@
 
 import { loadParquet } from './dataProcessor.js';
 
+
+// dictionary that maps variable names as they appear in the data to variable names as 
+// we want them to appear in the user interface.
+
+const ui_names = {
+    "population": "Population",
+    "buildingCount": "Buildings",
+    "manufHomesCount": "Manufactured Homes",
+    "PRED3_PE": "Vulnerable Populations",
+    "EP_MINRTY": "Minority Population",
+    "Over90th": "Extreme Heat",
+    "SPEI3_Diff": "Short-Term Drought",
+    "SPEI12_Diff": "Long-Term Drought",
+    "HousingTenure": "Home Ownership",
+    "HospitalDistMile": "Access to Hospital",
+    "NatResrcJobs": "Natural Resource Jobs",
+    "flood": "FEMA Flood Zones",
+    "coastalErosion": "Coastal Erosion Zones",
+    "tsunami": "Tsunami Hazard Zones",
+    "volcano": "Volcanic Lahar Zones",
+    "libraries": "Access to Libraries",
+    "culturalTrust": "Access to Cultural Institutions",
+    "transGISBridges": "ODOT Bridge Conditions",
+    "criticalFacilities": "Access to Critical Facilities",
+    "majorRoads": "ODOT Highways",
+    "burn": "Wildfire Burn Probability",
+    "landslide": "Landslide Hazard Zones",
+    "liquefaction": "Liquefaction Hazard Zones",
+    "flame_height": "Wildfire Flame Height",
+    "imperviousSurface": "Impervious Surface"
+};
+
+
+
 /**
  * Append <calcite-combobox-item> elements to a parent element.
  * @param {HTMLElement} comboboxEl - The combobox container.
  * @param {string[]} values - Array of values to append.
  */
+
 function appendComboboxItems(comboboxEl, values) {
   if (!comboboxEl) return;
   values.sort().forEach(val => {
@@ -29,16 +64,8 @@ function appendComboboxItems(comboboxEl, values) {
 export function formatHeader(str) {
   if (!str) return "";
 
-  // Define exceptions
-  const exceptions = {
-    "community_center_dist": "Community Center Distance",
-    "library_dist": "Library Distance",
-    "burn_prob": "Burn Probability",
-    "flame_length": "Flame Length"
-  };
-
   // Check if str matches an exception
-  if (exceptions[str]) return exceptions[str];
+  if (ui_names[str]) return ui_names[str];
 
   //remove underscores, capitalize each word
   return str
