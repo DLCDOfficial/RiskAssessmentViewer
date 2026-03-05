@@ -33,7 +33,7 @@ const ui_names = {
     "liquefaction": "Liquefaction Hazard Zones",
     "flame_height": "Wildfire Flame Height",
     "imperviousSurface": "Impervious Surface"
-}
+};
 
 
 
