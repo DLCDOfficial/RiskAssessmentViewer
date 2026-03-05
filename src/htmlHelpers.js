@@ -14,7 +14,7 @@ const ui_names = {
     "PRED3_PE": "Vulnerable Populations",
     "EP_MINRTY": "Minority Population",
     "Over90th": "Extreme Heat",
-    "SPEI3_Diff": "Short-term Drought",
+    "SPEI3_Diff": "Short-Term Drought",
     "SPEI12_Diff": "Long-Term Drought",
     "HousingTenure": "Home Ownership",
     "HospitalDistMile": "Access to Hospital",
