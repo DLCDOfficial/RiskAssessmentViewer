@@ -31,7 +31,8 @@ const ui_names = {
     "landslide": "Landslide Hazard Zones",
     "liquefaction": "Liquefaction Hazard Zones",
     "flame_height": "Wildfire Flame Height",
-    "imperviousSurface": "Impervious Surface",   "csze_pga": "CSZE PGA Map",
+    "imperviousSurface": "Impervious Surface",
+    "csze_pga": "CSZE PGA Map",
     "p2475_pga": "P2475 PGA Map"
 };
 
