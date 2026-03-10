@@ -14,9 +14,8 @@ const ui_names = {
     "PRED3_PE": "Vulnerable Populations",
     "EP_MINRTY": "Minority Population",
     "Over90th": "Extreme Heat",
-    "SPEI3_Diff": "Short-Term Drought",
     "SPEI12_Diff": "Long-Term Drought",
-    "HousingTenure": "Home Ownership",
+    "PctRenter": "Percent Renters",
     "HospitalDistMile": "Access to Hospital",
     "NatResrcJobs": "Natural Resource Jobs",
     "flood": "FEMA Flood Zones",
@@ -32,7 +31,8 @@ const ui_names = {
     "landslide": "Landslide Hazard Zones",
     "liquefaction": "Liquefaction Hazard Zones",
     "flame_height": "Wildfire Flame Height",
-    "imperviousSurface": "Impervious Surface"
+    "imperviousSurface": "Impervious Surface",   "csze_pga": "CSZE PGA Map",
+    "p2475_pga": "P2475 PGA Map"
 };
 
 
