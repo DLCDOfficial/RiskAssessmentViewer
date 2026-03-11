@@ -34,11 +34,10 @@ for item in os.listdir(data_dir):
 print(places)
 
 
-vars = ['population','buildingCount','manufHomesCount','EP_MINRTY','Over90th','SPEI3_Diff','SPEI12_Diff','HousingTenure','NatResrcJobs','flood','libraries','culturalTrust','transGISBridges','criticalFacilities','burn','landslide','liquefaction','flame_height']
-indicators = ['population', 'manufHomesCount', 'buildingCount', 'PRED3_PE', 'EP_MINRTY', 'HousingTenure', 'HospitalDistMile', 'NatResrcJobs', 'libraries',
+indicators = ['population', 'manufHomesCount', 'buildingCount', 'PRED3_PE', 'EP_MINRTY', 'PctRenter', 'HospitalDistMile', 'NatResrcJobs', 'libraries',
  'culturalTrust', 'transGISBridges', 'criticalFacilities', 'majorRoads', 'imperviousSurface']
-harms = ['flood', 'burn', 'landslide', 'liquefaction', 'flame_height', 'Over90th', 'SPEI3_Diff', 'SPEI12_Diff', 'coastalErosion', 'tsunami', 'volcano', ]
 
+harms = ['flood', 'burn', 'landslide', 'liquefaction', 'flame_height', 'Over90th', 'SPEI12_Diff', 'coastalErosion', 'tsunami', 'volcano','csze_pga', 'p2475_pga' ]
 
 harm_asset = []
 for harm in harms:

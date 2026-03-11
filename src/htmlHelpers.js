@@ -14,27 +14,28 @@ const ui_names = {
     "PRED3_PE": "Vulnerable Populations",
     "EP_MINRTY": "Minority Population",
     "Over90th": "Extreme Heat",
-    "SPEI12_Diff": "Long-Term Drought",
+    "SPEI12_Diff": "Drought",
     "PctRenter": "Percent Renters",
     "HospitalDistMile": "Access to Hospital",
     "NatResrcJobs": "Natural Resource Jobs",
-    "flood": "FEMA Flood Zones",
-    "coastalErosion": "Coastal Erosion Zones",
-    "tsunami": "Tsunami Hazard Zones",
-    "volcano": "Volcanic Lahar Zones",
+    "flood": "Flood: FEMA Hazard Zones",
+    "coastalErosion": "Coastal Erosion",
+    "tsunami": "Tsunami",
+    "volcano": "Volcano",
     "libraries": "Access to Libraries",
     "culturalTrust": "Access to Cultural Institutions",
     "transGISBridges": "ODOT Bridge Conditions",
     "criticalFacilities": "Access to Critical Facilities",
     "majorRoads": "ODOT Highways",
-    "burn": "Wildfire Burn Probability",
-    "landslide": "Landslide Hazard Zones",
-    "liquefaction": "Liquefaction Hazard Zones",
-    "flame_height": "Wildfire Flame Height",
+    "burn": "Wildfire: Burn Probability",
+    "landslide": "Landslide",
+    "liquefaction": "Earthquake: Liquefaction",
+    "flame_height": "Wildfire: Flame Height",
     "imperviousSurface": "Impervious Surface",
-    "csze_pga": "CSZE PGA Map",
-    "p2475_pga": "P2475 PGA Map"
+    "csze_pga": "Earthquake: Ground Shaking Modeled",
+    "p2475_pga": "Earthquake: Ground Shaking Measured"
 };
+
 
 
 
@@ -44,14 +45,21 @@ const ui_names = {
  * @param {string[]} values - Array of values to append.
  */
 
-function appendComboboxItems(comboboxEl, values) {
+function appendComboboxItems(comboboxEl, in_values) {
+
+  const values = in_values.map(val => ({
+   var_name: val,
+   ui_name: ui_names[val] || val
+   }));
+
+ 
   if (!comboboxEl) return;
-  values.sort().forEach(val => {
+  values.sort((a, b) => a.ui_name.localeCompare(b.ui_name))
+  .forEach(val => {
     const item = document.createElement('calcite-combobox-item');
-    item.setAttribute('value', val);
-    const header = formatHeader(val)
+    item.setAttribute('value', val.var_name);
     //The display name should be different than the value
-    item.setAttribute('heading', header);
+    item.setAttribute('heading', val.ui_name);
     comboboxEl.append(item);
   });
 }
@@ -70,10 +78,10 @@ export function formatHeader(str) {
 
   //remove underscores, capitalize each word
   return str
-    .replace(/_/g, ' ')
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
+  .replace(/_/g, ' ')
+  .split(' ')
+  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+  .join(' ');
 }
 
 /**
