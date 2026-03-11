@@ -32,8 +32,8 @@ const ui_names = {
     "liquefaction": "Earthquake: Liquefaction",
     "flame_height": "Wildfire: Flame Height",
     "imperviousSurface": "Impervious Surface",
-    "csze_pga": "Earthquake: Ground Shaking Modeled",
-    "p2475_pga": "Earthquake: Ground Shaking Measured"
+    "csze_pga": "Earthquake: Ground Shaking Measured",
+    "p2475_pga": "Earthquake: Ground Shaking Modeled"
 };
 
 
