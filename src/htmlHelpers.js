@@ -14,27 +14,28 @@ const ui_names = {
     "PRED3_PE": "Vulnerable Populations",
     "EP_MINRTY": "Minority Population",
     "Over90th": "Extreme Heat",
-    "SPEI12_Diff": "Long-Term Drought",
+    "SPEI12_Diff": "Drought",
     "PctRenter": "Percent Renters",
     "HospitalDistMile": "Access to Hospital",
     "NatResrcJobs": "Natural Resource Jobs",
-    "flood": "FEMA Flood Zones",
-    "coastalErosion": "Coastal Erosion Zones",
-    "tsunami": "Tsunami Hazard Zones",
-    "volcano": "Volcanic Lahar Zones",
+    "flood": "Flood: FEMA Hazard Zones",
+    "coastalErosion": "Coastal Erosion",
+    "tsunami": "Tsunami",
+    "volcano": "Volcano",
     "libraries": "Access to Libraries",
     "culturalTrust": "Access to Cultural Institutions",
     "transGISBridges": "ODOT Bridge Conditions",
     "criticalFacilities": "Access to Critical Facilities",
     "majorRoads": "ODOT Highways",
-    "burn": "Wildfire Burn Probability",
-    "landslide": "Landslide Hazard Zones",
-    "liquefaction": "Liquefaction Hazard Zones",
-    "flame_height": "Wildfire Flame Height",
+    "burn": "Wildfire: Burn Probability",
+    "landslide": "Landslide",
+    "liquefaction": "Earthquake: Liquefaction",
+    "flame_height": "Wildfire: Flame Height",
     "imperviousSurface": "Impervious Surface",
-    "csze_pga": "CSZE PGA Map",
-    "p2475_pga": "P2475 PGA Map"
+    "csze_pga": "Earthquake: Ground Shaking Modeled",
+    "p2475_pga": "Earthquake: Ground Shaking Measured"
 };
+
 
 
 
