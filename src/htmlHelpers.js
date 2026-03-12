@@ -15,7 +15,7 @@ const ui_names = {
     "EP_MINRTY": "Minority Population",
     "Over90th": "Extreme Heat",
     "SPEI12_Diff": "Drought",
-    "PctRenter": "Percent Renters",
+    "PctRenter": "Renters",
     "HospitalDistMile": "Access to Hospital",
     "NatResrcJobs": "Natural Resource Jobs",
     "flood": "Flood: FEMA Hazard Zones",
