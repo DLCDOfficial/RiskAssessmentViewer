@@ -104,10 +104,10 @@ export function setupMapLayerList(view) {
  *  - wraps each polygon in a Graphic with default attributes
  *  - assembles all graphics into a FeatureLayer rendered by `generateRenderer()`
  * @param {Array} uniqueHexes 
- * @param {} map 
+ * @param {Boolean} lowRes - Is low resolution hex? 
  * @returns  {FeatureLayer}
  */
-export function createHexLayer(uniqueHexes, map) {
+export function createHexLayer(uniqueHexes, lowRes = false) {
   loadingEnabled = true;
 
   console.time("CREATE HEX LAYER")
@@ -127,8 +127,9 @@ export function createHexLayer(uniqueHexes, map) {
   console.timeEnd("CREATE HEX LAYER")
 
   return new FeatureLayer({
+    title: `Hex Layer ${lowRes ? 'Low Resolution' : 'High Resolution'}`,
     objectIdField: 'grid_id',
-    listMode: 'hide',
+    listMode: 'show',
     opacity: 0.85,
     popupEnabled: true,
     popupTemplate: {
@@ -311,7 +312,7 @@ export async function loadCity(fileName, lowres) {
   const { hexStore: newHexStore, uniqueHexes, flags_data } = await loadHexData(fileName);
 
   if (lowres) {
-    hexLayerLowRes = createHexLayer(uniqueHexes, view.map);
+    hexLayerLowRes = createHexLayer(uniqueHexes, true);
     hexStoreLowRes = newHexStore;
     view.map.add(hexLayerLowRes)
     view.map.reorder(hexLayerLowRes, 0);
@@ -320,7 +321,7 @@ export async function loadCity(fileName, lowres) {
 
   else {
     setTimeout(() => {
-      hexLayer = createHexLayer(uniqueHexes, view.map);
+      hexLayer = createHexLayer(uniqueHexes, false);
       hexStore = newHexStore;
       view.map.add(hexLayer);
       view.map.reorder(hexLayer, 0);
