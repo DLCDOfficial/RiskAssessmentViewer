@@ -31,15 +31,17 @@ const radioGroup = document.querySelector("#comparison-region calcite-radio-butt
 const mapComponent = document.querySelector("arcgis-map");
 const view = mapComponent.view;
 const updateBtn = document.getElementById('updateIndicatorsBtn');
-
+const aboutAction = document.getElementById("about-action");
+const legendEl = document.getElementById('legend-container');
+const info_dialog = document.getElementById("info-dialog");
+  // --------------------CLICK FUNCTIONALITY -----------------
+aboutAction.addEventListener("click", () => info_dialog.open = true);
 
 // ------------------ Initialize Map ------------------
 initMapHandler(view);
 setupZoomVisibility(view);
 setupMapLayerList(view);
 setupPrintBtn(createCustomWidgetElement(), view);
-
-const legendEl = document.getElementById('legend-container');
 view.ui.add(legendEl, "bottom-left");
 legendEl.style.display = "block";
 
