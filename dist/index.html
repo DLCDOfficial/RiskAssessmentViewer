@@ -6,11 +6,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Risk Assessment Viewer</title>
   <script type="module" src="https://js.arcgis.com/calcite-components/3.3.0/calcite.esm.js"></script>
-  <script type="module" crossorigin src="./assets/index-Dhc8q1LO.js"></script>
+  <script type="module" crossorigin src="./assets/index-BaEZLn5-.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-uhddrRCC.css">
 </head>
 
 <body>
+	
+
+  <!-- DIALOGS    -->
+  <calcite-dialog modal open heading="Community Hazard Risk Inventory System" id="info-dialog">
+    <div>
+      <h2>Community Hazard Risk Inventory System</h2>
+      <p><strong>CHRIS</strong></p>
+
+      <p>
+        The Community Hazard Risk Inventory System is an exploratory tool built to help natural hazard mitigation planners identify areas where
+        hazard exposure intersects with potentially vulnerable people and assets. 
+
+        For best use guidelines, see <a href="" target="_blank"> here </a>
+
+      </p>
+
+      <p>
+        The data sources behind each indicator in this tool come from a variety of sources with differing update
+        schedules, and, like all data, have imperfections inherent in them.
+        The results of this mapping tool alone should not result in any decision-making or regulatory effect. They are
+        intended for planning purposes only.
+
+        For a comprehensive list of data sources used, see <a href="" target="_blank"> here </a>
+
+      </p>
+      <p><strong>How to Use</strong></p>
+
+      <p>
+        To use the tool, select a county of interest and any indicators you want included in the analysis. Then, click 'Run Model'. The resulting hexagons can be clicked to show individual scores for each indicator. 
+      </p>
+
+      <p>
+        This tool displays outputs of a PROMETHEE model.
+
+        Indicators are scored on a scale from -0.2 to 1, where 0 is roughly average, and negative and positive scores reflect deviation from average.
+
+        Selected vulnerability indicators and selected harm indicators are averaged separately. Their intersection is displayed on the map.
+        <p><strong>For visualization, scores are grouped into the following categories: </strong><br></p>
+
+       <strong>Less than 0</strong> — Low relative risk<br>
+       <strong>0–0.19</strong> — Medium relative risk<br>
+       <strong>0.2–0.29</strong> — High relative risk<br>
+       <strong>≥ 0.3</strong> — Very high relative risk<br> <br>
+
+        To learn more about the PROMETHEE modeling approach used, see  <a href="" target="_blank"> here </a>
+      </p>
+    </div>
+  </calcite-dialog>
+
+
   <calcite-shell>
     <!-- HEADER WITH LOGO -->
     <calcite-navigation slot="header">
@@ -28,7 +78,7 @@
         </calcite-action-group>
 
         <calcite-action-group slot="bottom-actions">
-          <calcite-action text="About" icon="information" text-enabled></calcite-action>
+          <calcite-action id="about-action" text="About" icon="information" text-enabled></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
 
