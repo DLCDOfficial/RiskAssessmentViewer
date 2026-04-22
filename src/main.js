@@ -34,6 +34,18 @@ const updateBtn = document.getElementById('updateIndicatorsBtn');
 const aboutAction = document.getElementById("about-action");
 const legendEl = document.getElementById('legend-container');
 const info_dialog = document.getElementById("info-dialog");
+const disclaimer_dialog = document.getElementById("disclaimer-dialog");
+
+var first_popup = true
+
+// -------------AFTER THE FIRST INFO POPUP, SHOW LEGAL DISCLAIMER------
+info_dialog.addEventListener("calciteDialogClose", () => {
+
+  if(first_popup == true){
+    first_popup = false;
+    disclaimer_dialog.open = true;}
+});
+
   // --------------------CLICK FUNCTIONALITY -----------------
 aboutAction.addEventListener("click", () => info_dialog.open = true);
 
