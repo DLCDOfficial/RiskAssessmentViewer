@@ -61,8 +61,3 @@ arcgis-map {
   flex-direction: column;
   height: 100%;
 }
-
-#updateIndicatorsBtn {
-  position: absolute;
-  bottom: 0;
-}
