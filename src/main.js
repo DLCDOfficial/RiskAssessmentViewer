@@ -57,6 +57,8 @@ setupPrintBtn(createCustomWidgetElement(), view);
 view.ui.add(legendEl, "bottom-left");
 legendEl.style.display = "block";
 
+
+
 // ------------------ Indicator Dropdown ------------------
 createIndicatorElements(indicatorCombo, (selectedIndicators) => {
   setIndicators(selectedIndicators);

@@ -91,9 +91,47 @@ export function setupPrintBtn(el, view) {
  */
 export function setupMapLayerList(view) {
   const arcgisLayerListWidget = document.querySelector('arcgis-layer-list');
+  extendLayerListWithLegend(arcgisLayerListWidget);
   arcgisLayerListWidget.componentOnReady().then(() => {
     arcgisLayerListWidget.view = view;
   });
+}
+
+/**
+ * 
+ * @param {HTMLElement} layer_list_component - arcgis-layer-list component 
+ */
+function extendLayerListWithLegend(layer_list_component) {
+  layer_list_component.listItemCreatedFunction = (event) => {
+    const { item } = event;
+    if (item.layer.tyle !== "group") {
+      const panelContainer = document.createElement("div");
+      panelContainer.style.padding = "12px";
+
+      const slider = document.createElement("calcite-slider");
+      slider.min = 0;
+      slider.max = 1;
+      slider.step = 0.05;
+      slider.value = item.layer.opacity;
+      slider.labelHandles = true;
+
+      slider.addEventListener("calciteSliderChange", (event) => {
+        item.layer.opacity = event.target.value;
+      });
+
+      const legendHeader = document.createElement("div");
+      legendHeader.innerHTML = "<strong>Opacity</strong>";
+      legendHeader.style.marginBottom = "6px";
+
+      panelContainer.appendChild(legendHeader);
+      panelContainer.appendChild(slider);
+
+      item.panel = {
+        content: [panelContainer, "legend"],
+        open: false
+      };
+    }
+  };
 }
 
 /**
