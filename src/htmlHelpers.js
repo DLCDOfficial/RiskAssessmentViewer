@@ -56,11 +56,13 @@ function appendComboboxItems(comboboxEl, in_values) {
   if (!comboboxEl) return;
   values.sort((a, b) => a.ui_name.localeCompare(b.ui_name))
   .forEach(val => {
+    //Chris wanted to hide the drought indicator. Temporary fix. 	  
+    if(val.ui_name!="Drought"){
     const item = document.createElement('calcite-combobox-item');
     item.setAttribute('value', val.var_name);
     //The display name should be different than the value
     item.setAttribute('heading', val.ui_name);
-    comboboxEl.append(item);
+    comboboxEl.append(item);}
   });
 }
 
@@ -142,7 +144,7 @@ export async function createPlaceElements(comboboxEl, callback, filename = 'plac
 export async function createIndicatorElements(comboboxEl, callback, filename = 'harms_assets.parquet') {
   try {
     const data = await loadParquet(filename);
-    const harmsGroup = comboboxEl.querySelector('calcite-combobox-item-group[label="Harms"]');
+    const harmsGroup = comboboxEl.querySelector('calcite-combobox-item-group[label="Hazards"]');
     const assetsGroup = comboboxEl.querySelector('calcite-combobox-item-group[label="Vulnerabilities"]');
 
     appendGroupedItems(assetsGroup, data, 'asset');
