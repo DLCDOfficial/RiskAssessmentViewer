@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Risk Assessment Viewer</title>
+  <title>Community Hazard Risk Indicator System</title>
   <script type="module" src="https://js.arcgis.com/calcite-components/3.3.0/calcite.esm.js"></script>
 </head>
 
@@ -12,13 +12,13 @@
 	
 
   <!-- DIALOGS    -->
-  <calcite-dialog modal open heading="Community Hazard Risk Inventory System" id="info-dialog">
+  <calcite-dialog modal open heading="Community Hazard Risk Indicator System" id="info-dialog">
     <div>
-      <h2>Community Hazard Risk Inventory System</h2>
+      <h2>Community Hazard Risk Indicator System</h2>
       <p><strong>CHRIS</strong></p>
 
       <p>
-        The Community Hazard Risk Inventory System is an exploratory tool built to help natural hazard mitigation planners identify areas where
+        The Community Hazard Risk Indicator System is an exploratory tool built to help natural hazard mitigation planners identify areas where
         hazard exposure intersects with potentially vulnerable people and assets. 
 
         For best use guidelines, see <a href="" target="_blank"> here </a>
@@ -97,7 +97,7 @@
   <calcite-shell>
     <!-- HEADER WITH LOGO -->
     <calcite-navigation slot="header">
-      <calcite-navigation-logo slot="logo" heading="Risk Assessment Viewer"
+      <calcite-navigation-logo slot="logo" heading="Community Hazard Risk Indicator System"
         thumbnail="https://raw.githubusercontent.com/DLCDOfficial/dlcd-logos/refs/heads/main/DLCD_logo_only.png"></calcite-navigation-logo>
     </calcite-navigation>
 
@@ -135,6 +135,12 @@
           <arcgis-layer-list visibility-appearance="checkbox"></arcgis-layer-list>
         </calcite-block>
 
+
+         <calcite-block heading="Legend" description="Toggle Legend Visibility" >
+          <calcite-switch id="legendToggle" slot="content-start" checked></calcite-switch>
+        </calcite-block>
+
+
         <calcite-button id="updateIndicatorsBtn" icon-end="play" scale="l" slot="footer" width="full">Run Model</calcite-button>
 
       </calcite-panel>
@@ -151,10 +157,17 @@
     </calcite-panel>
   </calcite-shell>
 
+
+  <button id="toggleBtn">Hide Content</button>
+
   <!-- CUSTOM LEGEND TO INJECT INTO MAP UI-->
   <div id="legend-container" style="background:white; padding:20px; z-index:100; display: none">
     <!-- Main Title -->
+    <!-- Legend header -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+    
 
+  </div>
     <!-- Grid Container -->
     <div style="display:grid; 
               grid-template-columns: 50px repeat(4, 50px); 
