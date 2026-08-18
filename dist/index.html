@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Risk Assessment Viewer</title>
+  <title>Community Hazard Risk Indicator System</title>
   <script type="module" src="https://js.arcgis.com/calcite-components/3.3.0/calcite.esm.js"></script>
-  <script type="module" crossorigin src="./assets/index-BXgbNhbh.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BJseZYu3.css">
+  <script type="module" crossorigin src="./assets/index-ByEnu5t-.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-B1o1mzMu.css">
 </head>
 
 <body>
 	
 
   <!-- DIALOGS    -->
-  <calcite-dialog modal open heading="Community Hazard Risk Inventory System" id="info-dialog">
+  <calcite-dialog modal open heading="Community Hazard Risk Indicator System" id="info-dialog">
     <div>
-      <h2>Community Hazard Risk Inventory System</h2>
+      <h2>Community Hazard Risk Indicator System</h2>
       <p><strong>CHRIS</strong></p>
 
       <p>
-        The Community Hazard Risk Inventory System is an exploratory tool built to help natural hazard mitigation planners identify areas where
+        The Community Hazard Risk Indicator System is an exploratory tool built to help natural hazard mitigation planners identify areas where
         hazard exposure intersects with potentially vulnerable people and assets. 
 
         For best use guidelines, see <a href="" target="_blank"> here </a>
@@ -47,7 +47,7 @@
 
         Indicators are scored on a scale from -0.2 to 1, where 0 is roughly average, and negative and positive scores reflect deviation from average.
 
-        Selected vulnerability indicators and selected harm indicators are averaged separately. Their intersection is displayed on the map.
+        Selected vulnerability indicators and selected hazard indicators are averaged separately. Their intersection is displayed on the map.
         <p><strong>For visualization, scores are grouped into the following categories: </strong><br></p>
 
        <strong>Less than 0</strong> — Low relative risk<br>
@@ -99,7 +99,7 @@
   <calcite-shell>
     <!-- HEADER WITH LOGO -->
     <calcite-navigation slot="header">
-      <calcite-navigation-logo slot="logo" heading="Risk Assessment Viewer"
+      <calcite-navigation-logo slot="logo" heading="Community Hazard Risk Indicator System"
         thumbnail="https://raw.githubusercontent.com/DLCDOfficial/dlcd-logos/refs/heads/main/DLCD_logo_only.png"></calcite-navigation-logo>
     </calcite-navigation>
 
@@ -124,18 +124,24 @@
           </calcite-combobox>
         </calcite-block>
 
-        <calcite-block heading="Indicators" description="Select Harms & Vulnerabilities" icon-start="effects" expanded>
+        <calcite-block heading="Indicators" description="Select Hazards & Vulnerabilities" icon-start="effects" expanded>
           <calcite-combobox id="indicator-combobox" placeholder="Indicators" selection-mode="multiple"
             selected-items-label="single">
             <!-- Populate with indicators -->
             <calcite-combobox-item-group label="Vulnerabilities"></calcite-combobox-item-group>
-            <calcite-combobox-item-group label="Harms"></calcite-combobox-item-group>
+            <calcite-combobox-item-group label="Hazards"></calcite-combobox-item-group>
           </calcite-combobox>
         </calcite-block>
 
         <calcite-block collapsible heading="Layers" description="Toggle Map Layers" icon-start="layers">
           <arcgis-layer-list visibility-appearance="checkbox"></arcgis-layer-list>
         </calcite-block>
+
+
+         <calcite-block heading="Legend" description="Toggle Legend Visibility" >
+          <calcite-switch id="legendToggle" slot="content-start" checked></calcite-switch>
+        </calcite-block>
+
 
         <calcite-button id="updateIndicatorsBtn" icon-end="play" scale="l" slot="footer" width="full">Run Model</calcite-button>
 
@@ -153,10 +159,31 @@
     </calcite-panel>
   </calcite-shell>
 
+
+  <button id="toggleBtn">Hide Content</button>
+
   <!-- CUSTOM LEGEND TO INJECT INTO MAP UI-->
   <div id="legend-container" style="background:white; padding:20px; z-index:100; display: none">
-    <!-- Main Title -->
+    
+  
+  <!-- Main Title -->
+  <div style="
+    font-size: 18px;
+    font-weight: 600;
+    color: #2f3b45;
+    letter-spacing: 0.2px;
+    text-align: center;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ddd;
+  ">
+    Relative Risk Matrix
+  </div>
+    <!-- Legend header -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+    
 
+  </div>
     <!-- Grid Container -->
     <div style="display:grid; 
               grid-template-columns: 50px repeat(4, 50px); 
@@ -218,7 +245,7 @@
       <div style="grid-row:5; grid-column:5; text-align:center; font-size:10px;">very high</div>
       <!-- Large X Axis Label -->
       <div style="grid-row:6; grid-column:2/6; text-align:center; font-weight:bold;">
-        Higher Harms →
+        Higher Hazard Exposure →
       </div>
 
     </div>
