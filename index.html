@@ -45,7 +45,7 @@
 
         Indicators are scored on a scale from -0.2 to 1, where 0 is roughly average, and negative and positive scores reflect deviation from average.
 
-        Selected vulnerability indicators and selected harm indicators are averaged separately. Their intersection is displayed on the map.
+        Selected vulnerability indicators and selected hazard indicators are averaged separately. Their intersection is displayed on the map.
         <p><strong>For visualization, scores are grouped into the following categories: </strong><br></p>
 
        <strong>Less than 0</strong> — Low relative risk<br>
@@ -122,12 +122,12 @@
           </calcite-combobox>
         </calcite-block>
 
-        <calcite-block heading="Indicators" description="Select Harms & Vulnerabilities" icon-start="effects" expanded>
+        <calcite-block heading="Indicators" description="Select Hazards & Vulnerabilities" icon-start="effects" expanded>
           <calcite-combobox id="indicator-combobox" placeholder="Indicators" selection-mode="multiple"
             selected-items-label="single">
             <!-- Populate with indicators -->
             <calcite-combobox-item-group label="Vulnerabilities"></calcite-combobox-item-group>
-            <calcite-combobox-item-group label="Harms"></calcite-combobox-item-group>
+            <calcite-combobox-item-group label="Hazards"></calcite-combobox-item-group>
           </calcite-combobox>
         </calcite-block>
 
@@ -162,7 +162,21 @@
 
   <!-- CUSTOM LEGEND TO INJECT INTO MAP UI-->
   <div id="legend-container" style="background:white; padding:20px; z-index:100; display: none">
-    <!-- Main Title -->
+    
+  
+  <!-- Main Title -->
+  <div style="
+    font-size: 18px;
+    font-weight: 600;
+    color: #2f3b45;
+    letter-spacing: 0.2px;
+    text-align: center;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ddd;
+  ">
+    Relative Risk Matrix
+  </div>
     <!-- Legend header -->
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
     
@@ -229,7 +243,7 @@
       <div style="grid-row:5; grid-column:5; text-align:center; font-size:10px;">very high</div>
       <!-- Large X Axis Label -->
       <div style="grid-row:6; grid-column:2/6; text-align:center; font-weight:bold;">
-        Higher Harms →
+        Higher Hazard Exposure →
       </div>
 
     </div>
