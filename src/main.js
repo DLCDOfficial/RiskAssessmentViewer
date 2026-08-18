@@ -35,6 +35,8 @@ const aboutAction = document.getElementById("about-action");
 const legendEl = document.getElementById('legend-container');
 const info_dialog = document.getElementById("info-dialog");
 const disclaimer_dialog = document.getElementById("disclaimer-dialog");
+const legendToggle = document.getElementById("legendToggle")
+
 
 var first_popup = true
 
@@ -46,8 +48,14 @@ info_dialog.addEventListener("calciteDialogClose", () => {
     disclaimer_dialog.open = true;}
 });
 
+
+
   // --------------------CLICK FUNCTIONALITY -----------------
 aboutAction.addEventListener("click", () => info_dialog.open = true);
+
+
+
+
 
 // ------------------ Initialize Map ------------------
 initMapHandler(view);
@@ -94,3 +102,13 @@ attachRadioListener(radioGroup, () => {
 updateBtn.addEventListener('click', () => {
   refreshHexLayer();
 })
+
+
+
+//Hide Legend Handler
+legendToggle.addEventListener("calciteSwitchChange", (event) => {
+  legendEl.style.display = event.target.checked ? "block" : "none";
+});
+
+
+
