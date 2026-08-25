@@ -1,0 +1,43 @@
+
+
+
+# CHRIS
+
+
+View the [Community Hazard Risk Indicator System (CHRIS)](https://dlcdofficial.github.io/CHRIS/dist/).
+
+
+
+## Project Scaffold
+
+This project was originally created from Esri's VITE starter files.
+
+## Getting Started
+
+Data Setup   AFTER CLONING REPO: (VITE will use /data directory to build dist folder, so copy the data from /dist/data to /data). This will need to be redone if source data changes.)
+```
+cp -r /dist/data ./data
+```
+Setup
+```
+npm i
+```
+
+Write parquet files (requires adding harms_assets.csv file manually)
+```
+npm run write
+```
+
+Run development server
+```
+npm run dev
+```
+
+Builds dist files and assets for github pages
+```
+npm run build
+```
+
+📁 **[ZIPPED STARTER VITE FILES](https://esri.github.io/jsapi-resources/zips/map-component-sample-vite.zip)** 📁
+
+See the [Get started with npm guide](https://developers.arcgis.com/javascript/latest/get-started/#npm) for full instructions.
