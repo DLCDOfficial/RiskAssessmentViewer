@@ -102,6 +102,15 @@ export function setupMapLayerList(view) {
  * @param {HTMLElement} layer_list_component - arcgis-layer-list component 
  */
 function extendLayerListWithLegend(layer_list_component) {
+
+  //This stops tile layers from having redundant dropdowns
+  layer_list_component.filterPredicate = (item) => {
+        if (item.layer.type === "tile") {
+        item.children = [];
+    }
+        return item.layer.type !== "sublayer";
+    };
+
   layer_list_component.listItemCreatedFunction = (event) => {
     const { item } = event;
     if (item.layer.tyle !== "group") {
@@ -125,6 +134,16 @@ function extendLayerListWithLegend(layer_list_component) {
 
       panelContainer.appendChild(legendHeader);
       panelContainer.appendChild(slider);
+      
+      // SOURCE LINK
+      const sourceLink = document.createElement("a");
+      sourceLink.href = item.layer.url;
+      sourceLink.target = "_blank";
+      sourceLink.rel = "noopener noreferrer";
+      sourceLink.textContent = "View source data ↗";
+
+      panelContainer.appendChild(sourceLink);
+
 
       item.panel = {
         content: [panelContainer, "legend"],
@@ -133,6 +152,22 @@ function extendLayerListWithLegend(layer_list_component) {
     }
   };
 }
+
+function extendLayerListWithLegend2(layer_list_component) {
+    layer_list_component.filterPredicate = (item) => {
+        return item.layer.type !== "tile";
+    };
+
+    layer_list_component.listItemCreatedFunction = (event) => {
+        const { item } = event;
+
+        console.log(
+            "TITLE:", item.layer.title,
+            "TYPE:", item.layer.type
+        );
+
+    // Your opacity/source code here...
+};};
 
 /**
  *  Create a FeatureLayer of hexagons from a list of unique hex IDs.

@@ -128,7 +128,7 @@ const calculateValue = (field = 'region_pct_rank', rows = [], indicator_set) => 
     if (displayStringObject[bin] !== '') {
 
       if (bin == 1) {
-        displayString += "<br><strong>Harms:</strong><br>";
+        displayString += "<br><strong>Hazard Exposure:</strong><br>";
         displayString += `<strong> Total Score: ${totalHarms.toFixed(3)} </strong> <br> `;
         displayString += `<strong> Average Score: ${avgHarms.toFixed(3)} </strong> <br> `;
       }
